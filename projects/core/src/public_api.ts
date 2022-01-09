@@ -69,7 +69,6 @@ export * from './lib/services/api.service';
 export * from './lib/services/auth.service';
 export * from './lib/services/can-deactivate-guard.service';
 export * from './lib/services/config.service';
-export * from './lib/services/image.service';
 export * from './lib/services/loader.service';
 export * from './lib/services/loader-interceptor.service';
 export * from './lib/services/shared.service';

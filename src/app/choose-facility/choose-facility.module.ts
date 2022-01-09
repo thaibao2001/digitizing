@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 import { ApiService, AuthenService, LoginGuard } from 'core';
 import 'rxjs/add/operator/takeUntil';
@@ -16,6 +17,7 @@ const routing: Routes = [
     imports: [
         CommonModule,
         SharedModule,
+        HttpModule,
         FormsModule,
         RouterModule.forChild(routing),
     ],

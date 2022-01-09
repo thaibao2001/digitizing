@@ -160,7 +160,6 @@ export class PrintPreviewComponent implements OnInit, OnDestroy {
       '_authenService',
       '_loaderService',
       '_apiService',
-      '_imageService',
       '_fb'
     ];
     this.unsubscribe.next();

@@ -4,7 +4,7 @@ import { ENotificationType, Grid, SystemConstants } from 'core';
 import { combineLatest, Observable } from 'rxjs';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/takeUntil';
-import { ProvincesRef } from '../../entities/provinces-ref';
+import { ProvincesRef } from '../../../../main/entities/provinces-ref';
 declare var $: any;
 
 @Component({

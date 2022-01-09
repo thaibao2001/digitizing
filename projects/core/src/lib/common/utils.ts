@@ -15,7 +15,6 @@ import { finalize, map, takeUntil } from 'rxjs/operators';
 import { ApiService } from '../services/api.service';
 import { AuthenService } from '../services/auth.service';
 import { CustomDialogService } from '../services/custom-dialog.service';
-import { ImageService } from '../services/image.service';
 import { LoaderService } from '../services/loader.service';
 import { StorageService } from '../services/storage.service';
 import { CustomizeFileUpload } from './file-upload';
@@ -42,7 +41,6 @@ export class Utils implements OnDestroy {
     protected _loaderService: LoaderService;
     protected _printService: PrintService;
     protected _apiService: ApiService;
-    protected _imageService: ImageService;
     protected _fb: FormBuilder;
     protected _title: Title;
     public _dialogService: DialogService;
@@ -176,7 +174,6 @@ export class Utils implements OnDestroy {
         this._loaderService = injector.get(LoaderService);
         this._printService = injector.get(PrintService);
         this._apiService = injector.get(ApiService);
-        this._imageService = injector.get(ImageService);
         this._fb = injector.get(FormBuilder);
         this._keyboardShortcuts = injector.get(KeyboardShortcuts);
         this._title = injector.get(Title);
@@ -1951,16 +1948,6 @@ export class Utils implements OnDestroy {
         return file.name + ';' + file.size + ';' + baseCode;
     }
 
-    getImageFromService(fieldFromServer: any, onLoadCallback: any) {
-        return this._imageService.getImage(fieldFromServer).subscribe(data => {
-            let reader = new FileReader();
-            reader.onload = onLoadCallback;
-            if (data) {
-                reader.readAsDataURL(data);
-            }
-        });
-    }
-
     /**
      * Get file name
      * @param filePath Full file path in database
@@ -2268,7 +2255,6 @@ export class Utils implements OnDestroy {
             '_authenService',
             '_loaderService',
             '_apiService',
-            '_imageService',
             '_fb'
         ];
         if (this.unlisten) {

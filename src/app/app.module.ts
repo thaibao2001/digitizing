@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpModule, JsonpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -30,6 +31,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserModule,
     BrowserAnimationsModule,
     CommonModule,
+    HttpModule,
     HttpClientModule,
     SharedModule.forRoot(),
     RouterModule.forRoot(AppRoute,
@@ -43,6 +45,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     }),
     ReactiveFormsModule,
+    JsonpModule
   ],
   exports: [
     LoaderComponent,

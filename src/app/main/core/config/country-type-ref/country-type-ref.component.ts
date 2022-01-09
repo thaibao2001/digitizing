@@ -4,7 +4,7 @@ import { ENotificationType, Grid, SystemConstants } from 'core';
 import { Observable } from 'rxjs';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/takeUntil';
-import { CountryTypeRef } from '../../entities/country-type-ref';
+import { CountryTypeRef } from '../../../../main/entities/country-type-ref';
 declare var $: any;
 
 @Component({

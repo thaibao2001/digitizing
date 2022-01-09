@@ -4,7 +4,7 @@ import { ENotificationType, Grid, SystemConstants, CustomizeFileUpload } from 'c
 import { combineLatest, Observable } from 'rxjs';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/takeUntil';
-import { CountriesRef } from '../../entities/countries-ref';
+import { CountriesRef } from '../../../../main/entities/countries-ref';
 declare var $: any;
 
 @Component({

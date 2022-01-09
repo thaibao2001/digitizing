@@ -87,7 +87,6 @@ import { AuthenService } from './services/auth.service';
 import { CanDeactivateGuard } from './services/can-deactivate-guard.service';
 import { ConfigService } from './services/config.service';
 import { CustomDialogService } from './services/custom-dialog.service';
-import { ImageService } from './services/image.service';
 import { SharedService } from './services/shared.service';
 import { CustomDynamicDialogContent } from './directives/custom-dynamic-dialog-content';
 import { CustomDynamicDialogConfig } from './common/custom-dynamic-dialog-config';
@@ -297,7 +296,6 @@ export class CoreModule {
         CanDeactivateGuard,
         TreeDragDropService,
         ConfirmationService,
-        ImageService,
         AuthenService,
         ApiService,
         MessageService,
