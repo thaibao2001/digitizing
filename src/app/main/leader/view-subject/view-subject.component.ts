@@ -91,55 +91,33 @@ export class ViewSubjectComponent extends Grid implements OnInit {
     this.loadDropdowns();
     this.data = [
       {
-        data: {
-          name: 'Documents',
-          date: '75kb',
-          description: 'Folder',
-        },
+        name: 'Documents',
+        date: '75kb',
+        description: 'Folder',
+
         children: [
           {
-            data: {
-              name: 'Work',
-              date: '55kb',
-              description: 'Folder',
-            },
+            name: 'Work',
+            date: '55kb',
+            description: 'Folder',
           },
           {
-            data: {
-              name: 'Home',
-              date: '20kb',
-              description: 'Folder',
-            },
+            name: 'Home',
+            date: '20kb',
+            description: 'Folder',
           },
         ],
       },
       {
-        data: {
-          name: 'Pictures',
-          date: '150kb',
-          description: 'Folder',
-        },
+        name: 'Pictures',
+        date: '150kb',
+        description: 'Folder',
+
         children: [
           {
-            data: {
-              name: 'barcelona.jpg',
-              date: '90kb',
-              description: 'Picture',
-            },
-          },
-          {
-            data: {
-              name: 'primeui.png',
-              date: '30kb',
-              description: 'Picture',
-            },
-          },
-          {
-            data: {
-              name: 'optimus.jpg',
-              date: '30kb',
-              description: 'Picture',
-            },
+            name: 'barcelona.jpg',
+            date: '90kb',
+            description: 'Picture',
           },
         ],
       },
