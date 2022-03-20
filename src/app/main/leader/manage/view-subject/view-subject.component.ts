@@ -17,7 +17,7 @@ import { takeUntil } from 'rxjs/operators';
 import * as FileSaver from 'file-saver';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/takeUntil';
-import { WebsiteTag } from '../../entities/website-tag';
+import { WebsiteTag } from '../../../entities/website-tag';
 declare var $: any;
 
 @Component({

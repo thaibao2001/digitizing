@@ -6,5 +6,5 @@
 export const environment = {
     production: false,
     IMAGE_API: 'http://localhost:8888',
-    BASE_API: 'http://localhost:6868',
+    BASE_API: 'http://localhost:5050',
 };

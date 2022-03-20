@@ -22,6 +22,9 @@ export const mainRoutes: Routes = [
             {
                 path: 'leader', loadChildren: () => import('./leader/leader.module').then(m => m.LeaderModule)
             },
+            {
+                path: 'enterprise', loadChildren: () => import('./enterprise/enterprise.module').then(m => m.EnterpriseModule)
+            },
         ]
     }
 ];

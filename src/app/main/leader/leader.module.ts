@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
         RouterModule.forChild([
             {
                 path: 'view-teacher',
-                loadChildren: () => import('./view-teacher/view-teacher.module').then(m => m.ViewTeacherModule),
+                loadChildren: () => import('./manage/view-teacher/view-teacher.module').then(m => m.ViewTeacherModule),
                 data: {
                     full_path: 'leader/view-teacher',
                     preload: true,
@@ -19,7 +19,7 @@ import { RouterModule } from '@angular/router';
             }, 
             {
                 path: 'view-class',
-                loadChildren: () => import('./view-class/view-class.module').then(m => m.ViewClassModule),
+                loadChildren: () => import('./manage/view-class/view-class.module').then(m => m.ViewClassModule),
                 data: {
                     full_path: 'leader/view-class',
                     preload: true,
@@ -28,9 +28,18 @@ import { RouterModule } from '@angular/router';
             }, 
             {
                 path: 'view-subject',
-                loadChildren: () => import('./view-subject/view-subject.module').then(m => m.ViewSubjectModule),
+                loadChildren: () => import('./manage/view-subject/view-subject.module').then(m => m.ViewSubjectModule),
                 data: {
                     full_path: 'leader/view-subject',
+                    preload: true,
+                    delay: true
+                }
+            }, 
+            {
+                path: 'education-curriculum',
+                loadChildren: () => import('./manage/education-curriculum/education-curriculum.module').then(m => m.EducationCurriculumModule),
+                data: {
+                    full_path: 'leader/education-curriculum',
                     preload: true,
                     delay: true
                 }

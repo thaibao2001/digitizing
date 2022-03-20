@@ -1,24 +1,22 @@
-import { SharedModule } from '../../../shared/shared.module';
+import { SharedModule } from '../../../../shared/shared.module';
 import { NgModule } from '@angular/core';
 import 'rxjs/add/operator/takeUntil';
 import { RouterModule } from '@angular/router';
 import { PermissionGuard } from 'core';
-import { ViewSubjectComponent } from './view-subject.component';
-import { TabViewModule } from 'primeng/tabview';
+import { ViewClassComponent } from './view-class.component';
 
 @NgModule({
     declarations: [
-        ViewSubjectComponent,
+        ViewClassComponent,
     ],
     imports: [
         SharedModule,
-        TabViewModule,
         RouterModule.forChild([
-            { path: '', component: ViewSubjectComponent, canActivate: [PermissionGuard] },
+            { path: '', component: ViewClassComponent, canActivate: [PermissionGuard] },
         ]), // Append position
     ],
     exports: [], // Do not change "// Append position" line above althought only indent
     providers: []
 })
 
-export class ViewSubjectModule { }
+export class ViewClassModule { }
