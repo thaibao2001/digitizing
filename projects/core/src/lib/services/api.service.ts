@@ -50,6 +50,14 @@ export class ApiService {
           }));
   }
 
+  public importFile(file: Blob, url: string) {
+    const formData = new FormData();
+    formData.append('file', file);
+    let cloneHeader: any = {};
+    cloneHeader[SystemConstants.get('HEADER_AUTH')] = SystemConstants.get('TOKEN_PREFIX') + this._authenService.getLoggedInUser().access_token;
+    return this._http.post(url, formData, { headers: new HttpHeaders(cloneHeader), reportProgress: true, observe: 'events' })
+  }
+
   sendError(error: any, url: string, json_object: any = null) {
     if (this.env.production) {
       let exclude_errors = [

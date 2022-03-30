@@ -16,6 +16,10 @@ export class CompanyComponent extends Grid implements OnInit {
 
   public isCreate = false;
   public company: Company;
+  public display = false;
+  public fileExcel: any;
+  public fileNameExcel: any;
+
   public constructor(injector: Injector) {
     super(injector);
     this.LZCompress = true; // using LZString compress data
@@ -89,22 +93,6 @@ export class CompanyComponent extends Grid implements OnInit {
     this.updateForm.valueChanges.subscribe(res => {
       this.enabledSubmitFlag = this.modified();
     });
-    // this.updateForm.get('company_name').valueChanges.subscribe((value: string) => {
-    //   if (!value || value.trim() == '') {
-    //     this.updateForm.get('item_type_name_e').setValidators([Validators.required, Validators.maxLength(100)]);
-    //   } else {
-    //     this.updateForm.get('item_type_name_e').setValidators([Validators.maxLength(100)]);
-    //   }
-    //   this.updateForm.get('item_type_name_e').updateValueAndValidity({ onlySelf: true, emitEvent: false });
-    // });
-    // this.updateForm.get('item_type_name_e').valueChanges.subscribe((value: string) => {
-    //   if (!value || value.trim() == '') {
-    //     this.updateForm.get('item_type_name_l').setValidators([Validators.required, Validators.maxLength(100)]);
-    //   } else {
-    //     this.updateForm.get('item_type_name_l').setValidators([Validators.maxLength(100)]);
-    //   }
-    //   this.updateForm.get('item_type_name_l').updateValueAndValidity({ onlySelf: true, emitEvent: false });
-    // });
   }
 
   public onSubmit() {
@@ -212,6 +200,39 @@ export class CompanyComponent extends Grid implements OnInit {
       });
     }, 300);
   }
+
+  showDialog() {
+    this.display = true;
+    this.doneSetupForm = true;
+  }
+
+  public uploadExcel(event) {
+    if (event.target.files && event.target.files.length > 0) {
+      this.fileExcel = event.target.files[0];
+      this.fileNameExcel = this.fileExcel.name;
+    }
+  }
+
+  public uploadFile() {
+    this.doneSetupForm = false;
+    if (this.fileExcel) {
+      this._apiService.importFile(this.fileExcel, 'http://localhost:57065/api/company/Upload').subscribe((res: any) => {
+        if (res.body) {
+          this.search();
+          this._functionConstants.ShowNotification(ENotificationType.GREEN, res.body.messageCode);
+          this.display = false;
+          this.doneSetupForm = true;
+          this.fileExcel = null;
+          this.fileNameExcel = null;
+          this._changeDetectorRef.detectChanges();
+        }
+      });
+    } else {
+      this.doneSetupForm = true;
+      this._functionConstants.ShowNotification(ENotificationType.ORANGE, 'MESSAGE.choose_file');
+    }
+  }
+
 
   public getArrayRequest() {
     let arrRequest = [];

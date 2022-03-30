@@ -4,35 +4,16 @@
       <i class="ace-icon fa fa-home home-icon"></i>
       <a [routerLink]="">{{ 'COMMON.home' | translate }}</a>
     </li>
-    <li class="active">Doanh nghiệp</li>
+    <li class="active">Quản lý đồ án</li>
   </ul>
   <div class="nav-search">
-    <div class="pull-right no-margin" style="margin-top: 5px!important ;">
+    <p class="pull-right no-margin">
       <a *ngIf="!showSearchPanel" (click)="toggleSearchPanel()" href="javascript:;" class="btn btn-primary btn-xs">
         <i class="fa fa-search"></i>&nbsp;&nbsp;{{ 'COMMON.search' | translate }}
       </a>
       <a *ngIf="hasCreatePermission" class="btn btn-success btn-xs" (click)="openCreateModal()"><i
           class="fa fa-plus"></i>&nbsp;&nbsp;{{ 'COMMON.add' | translate }}</a>
-      <div class="btn-group" style="margin-left: 1px;">
-        <button data-toggle="dropdown" class="btn btn-sm btn-danger dropdown-toggle" aria-expanded="false"
-          style="height: 27px!important;">
-          <i class="ace-icon fa fa-file-import"></i> {{ 'COMMON.import' | translate }}
-          <i class="ace-icon fa fa-angle-down icon-on-right"></i>
-        </button>
-        <ul class="dropdown-menu dropdown-danger dropdown-menu-right">
-          <!-- <li>
-            <a href="javascript:;"
-              (click)="downloadFromUrl('https://huongnghiep.blob.core.windows.net/template/?.xlsx')">
-              <i class="fa fa-file-excel blue"></i>&nbsp;&nbsp;{{
-              'COMMON.export_to_template' | translate }}</a>
-          </li> -->
-          <li>
-            <a href="javascript:;" (click)="showDialog()"> <i class="fa fa-file-excel blue"></i>&nbsp;&nbsp;{{
-              'COMMON.import_to_template' | translate }}</a>
-          </li>
-        </ul>
-      </div>
-    </div>
+    </p>
   </div>
 </div>
 <div class="page-content">
@@ -50,7 +31,6 @@
                 <i class="ace-icon fa bigger-110 icon-only fa-angle-double-up"></i>
               </button>
             </p>
-
           </div>
         </p-header>
         <form [formGroup]="searchFormGroup" (ngSubmit)="search(true)" novalidate>
@@ -58,22 +38,20 @@
             <div class="ui-g-12">
               <div class="ui-g-12 ui-form-group">
                 <div class="ui-g-12 ui-md-2 inline-label text-right">
-                  Tên doanh nghiệp
+                  Tên đồ án
                 </div>
                 <div class="ui-g-12 ui-md-4">
-                  <input pInputText formControlName="company_name" ngModel type="text" />
+                  <input pInputText formControlName="course_name" ngModel type="text" />
                 </div>
               </div>
               <div class="ui-g-12 ui-form-group">
                 <div class="ui-g-12 ui-md-2 inline-label text-right">
-                  Loại doanh nghiệp
+                  Loại đồ án
                 </div>
-                <div class="ui-g-12 ui-md-8">
-                  <input pInputText formControlName="company_type" ngModel type="text" />
+                <div class="ui-g-12 ui-md-4">
+                  <input pInputText formControlName="course_type" ngModel type="text" />
                 </div>
               </div>
-
-
               <div class="clearfix"></div>
               <div class="ui-g-12 ui-form-group">
                 <div class="ui-g-12 ui-md-2 inline-label text-right">&nbsp;</div>
@@ -98,11 +76,12 @@
                   <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
                 <th style="width: 70px; text-align: center;">{{ 'COMMON.index' | translate }}</th>
-                <th style="width: 10%; text-align: left;">Tên doanh nghiệp</th>
-                <th style="text-align: left;">Loại doanh nghiệp</th>
-                <th style="text-align: left;">Địa chỉ website</th>
-                <th style="text-align: left;">Thông tin liên lạc</th>
-                <th style="width: 120px; text-align: left;" *ngIf="hasUpdatePermission || hasDeletePermission">{{
+                <th style="text-align: left;">Tên đồ án</th>
+                <th style="text-align: left;">Loại đồ án</th>
+                <th style="text-align: left;">Số tín 1</th>
+                <th style="text-align: left;">Số tín 2</th>
+                <th style="text-align: left;">Nhận xét</th>
+                <th style="width: 100px; text-align: left;" *ngIf="hasUpdatePermission || hasDeletePermission">{{
                   'COMMON.action' | translate }}</th>
               </tr>
             </ng-template>
@@ -112,13 +91,14 @@
                   <p-tableCheckbox [value]="row"></p-tableCheckbox>
                 </td>
                 <td style="width: 70px; text-align: center;">
-                  <div class="index_{{ row.company_rcd }}">{{ first + i + 1 }}</div>
+                  <div class="index_{{ row?.course_id_rcd }}">{{ first + i + 1 }}</div>
                 </td>
-                <td style="width: 10%; text-align: left;">{{ row?.company_name }}</td>
-                <td style="text-align: left;">{{ row?.company_type }}</td>
-                <td style="text-align: left;">{{ row.company_website_address }}</td>
-                <td style="text-align: left;">{{ row.company_contact }}</td>
-                <td class="action-col" style="width: 120px; text-align: left;"
+                <td style="text-align: left;">{{ row?.course_name }}</td>
+                <td style="text-align: left;">{{ row?.course_type }}</td>
+                <td style="text-align: left;">{{ row?.num_credits1 }}</td>
+                <td style="text-align: left;">{{ row?.num_credits2 }}</td>
+                <td style="text-align: left;">{{ row?.comment }}</td>
+                <td class="action-col" style="width: 100px; text-align: left;"
                   *ngIf="hasUpdatePermission || hasDeletePermission">
                   <div class="btn-group">
                     <button title="{{ 'COMMON.update' | translate }}" class="btn btn-xs btn-white btn-default"
@@ -173,89 +153,87 @@
       </div>
     </div>
   </div>
-  <div *ngIf="(hasCreatePermission || hasUpdatePermission) && showUpdateModal" id="updateWebsiteItemTypeRefModal"
+  <div *ngIf="(hasCreatePermission || hasUpdatePermission) && showUpdateModal" id="updateCourseModal"
     class="modal fade" role="dialog" data-backdrop="static" tabindex="-1">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 *ngIf="isCreate" class="modal-title">Thêm doanh nghiệp</h4>
-          <h4 *ngIf="!isCreate" class="modal-title">Sửa doanh nghiệp</h4>
+          <h4 *ngIf="isCreate" class="modal-title">Thêm đồ án</h4>
+          <h4 *ngIf="!isCreate" class="modal-title">Sửa đồ án</h4>
         </div>
         <div class="modal-body">
           <div *ngIf="!doneSetupForm" class="loading-overlay">
             <i class="fa fa-spinner fa-spin orange"></i>
           </div>
-          <form *ngIf="doneSetupForm" [formGroup]="updateForm" id="updateForm" class="lap-form"
-            style="min-height: 50vh;">
+          <form *ngIf="doneSetupForm" [formGroup]="updateForm" id="updateForm" class="lap-form" style="min-height: 50vh;">
             <div class="row ui-fluid">
               <div class="ui-g-12 ui-form-group">
                 <div class="ui-g-12 ui-md-2 inline-label text-right">
-                  Tên doanh nghiệp
+                  Mã đồ án
                   <span class="red">&nbsp;*</span>
                 </div>
                 <div class="ui-g-12 ui-md-4">
-                  <error-messages [errors]="updateForm.controls['company_name'].errors"
-                    [control]="updateForm.controls['company_name']"></error-messages>
-                  <input pInputText autofocus formControlName="company_name" [(ngModel)]="company.company_name"
+                  <error-messages [errors]="updateForm.controls['course_id_rcd'].errors"
+                    [control]="updateForm.controls['course_id_rcd']"></error-messages>
+                    <input pInputText formControlName="course_id_rcd" [(ngModel)]="course.course_id_rcd"
                     type="text" />
                 </div>
                 <div class="ui-g-12 ui-md-2 inline-label text-right">
-                  Loại doanh nghiệp
+                  Tên đồ án
                   <span class="red">&nbsp;*</span>
                 </div>
                 <div class="ui-g-12 ui-md-4">
-                  <error-messages [errors]="updateForm.controls['company_type'].errors"
-                    [control]="updateForm.controls['company_type']"></error-messages>
-                  <input pInputText formControlName="company_type" [(ngModel)]="company.company_type" type="text" />
-                </div>
-              </div>
-              <div class="ui-g-12 ui-form-group">
-                <div class="ui-g-12 ui-md-2 inline-label text-right">
-                  Địa chỉ website
-                  <span class="red">&nbsp;*</span>
-                </div>
-                <div class="ui-g-12 ui-md-4">
-                  <error-messages [errors]="updateForm.controls['company_website_address'].errors"
-                    [control]="updateForm.controls['company_website_address']"></error-messages>
-                  <input pInputText autofocus formControlName="company_website_address"
-                    [(ngModel)]="company.company_website_address" type="text" />
+                  <error-messages [errors]="updateForm.controls['course_name'].errors"
+                    [control]="updateForm.controls['course_name']"></error-messages>
+                    <input pInputText formControlName="course_name" [(ngModel)]="course.course_name"
+                    type="text" />
                 </div>
                 <div class="ui-g-12 ui-md-2 inline-label text-right">
-                  Thông tin liên lạc
+                  Loại đồ án
                   <span class="red">&nbsp;*</span>
                 </div>
                 <div class="ui-g-12 ui-md-4">
-                  <error-messages [errors]="updateForm.controls['company_contact'].errors"
-                    [control]="updateForm.controls['company_contact']"></error-messages>
-                  <input pInputText formControlName="company_contact" [(ngModel)]="company.company_contact"
+                  <error-messages [errors]="updateForm.controls['course_type'].errors"
+                    [control]="updateForm.controls['course_type']"></error-messages>
+                    <input pInputText formControlName="course_type" [(ngModel)]="course.course_type"
                     type="text" />
                 </div>
               </div>
               <div class="ui-g-12 ui-form-group">
                 <div class="ui-g-12 ui-md-2 inline-label text-right">
-                  Ngày thành lập
+                  Số tín 1
                   <span class="red">&nbsp;*</span>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                  <error-messages [errors]="updateForm.controls['num_credits1'].errors"
+                    [control]="updateForm.controls['num_credits1']"></error-messages>
+                    <input pInputText formControlName="num_credits1" [(ngModel)]="course.num_credits1"
+                    type="text" />
+                </div>
+                <div class="ui-g-12 ui-md-2 inline-label text-right">
+                  Số tín 2
+                  <span class="red">&nbsp;*</span>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                  <error-messages [errors]="updateForm.controls['num_credits2'].errors"
+                    [control]="updateForm.controls['num_credits2']"></error-messages>
+                    <input pInputText formControlName="num_credits2" [(ngModel)]="course.num_credits2"
+                    type="text" />
+                </div>
+              </div>
+              <div class="ui-g-12 ui-form-group">
+                <div class="ui-g-12 ui-md-2 inline-label text-right">
+                  Nhận xét
+                  <!-- <span class="red">&nbsp;*</span> -->
                 </div>
                 <div class="ui-g-12 ui-md-10">
-                  <error-messages class="has-dl" [errors]="updateForm.controls['company_found_date'].errors"
-                    [control]="updateForm.controls['company_found_date']"></error-messages>
-                  <div class="ui-inputgroup dual-language">
-                    <p-calendar formControlName="company_found_date" [(ngModel)]="company.company_found_date"
-                      [showIcon]="true" inputId="icon"></p-calendar>
-                  </div>
-                </div>
-                <div class="ui-g-12 ui-md-2 inline-label text-right">
-                  Id
-                  <span class="red">&nbsp;*</span>
-                </div>
-                <div class="ui-g-12 ui-md-4">
-                  <error-messages [errors]="updateForm.controls['company_rcd'].errors"
-                    [control]="updateForm.controls['company_rcd']"></error-messages>
-                  <input pInputText formControlName="company_rcd" [(ngModel)]="company.company_rcd" type="text" />
+                  <error-messages [errors]="updateForm.controls['comment'].errors"
+                    [control]="updateForm.controls['comment']"></error-messages>
+                  <textarea pInputText formControlName="comment"
+                    [(ngModel)]="course.comment" type="text"></textarea>
                 </div>
               </div>
             </div>
-
           </form>
         </div>
         <div class="modal-footer">
@@ -283,23 +261,3 @@
       (click)="cd.reject()"></button>
   </p-footer>
 </p-confirmDialog>
-<p-dialog header="{{ 'COMMON.import_to_template' | translate }}" [(visible)]="display" [modal]="true"
-  [responsive]="true" [style]="{width: '550px', minWidth: '200px'}" [minY]="70" [maximizable]="true"
-  [baseZIndex]="10000">
-  <div *ngIf="!doneSetupForm" class="loading-overlay">
-    <i class="fa fa-spinner fa-spin orange"></i>
-  </div>
-  <div style="display: flex; justify-content: right;">
-    <input style="width: 100%; margin-right: 1px; border: 1px solid rgb(230, 224, 224);" [readonly]="true"
-      value="{{fileNameExcel }}">
-    <input accept=".xlsx" name="file" id="file" (change)="uploadExcel($event)" type="file" #inputFileXL hidden>
-    <input type="button" (click)="inputFileXL.click()" style="border: 1px solid rgb(218, 215, 215); height: 30px;"
-      value="&nbsp;&nbsp;{{ 'COMMON.choosefile' | translate }}&nbsp;&nbsp;" />
-  </div>
-  <p-footer>
-    <button class="btn-success" type="button" pButton icon="pi pi-check" (click)="uploadFile()"
-      label="{{ 'COMMON.save' | translate }}"></button>
-    <button class="btn-default" type="button" pButton icon="pi pi-close" (click)="display=false"
-      label="{{ 'COMMON.cancel' | translate }}"></button>
-  </p-footer>
-</p-dialog>
