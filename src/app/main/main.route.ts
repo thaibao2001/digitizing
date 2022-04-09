@@ -19,9 +19,7 @@ export const mainRoutes: Routes = [
             {
                 path: 'cms', loadChildren: () => import('./cms/cms.module').then(m => m.CMSModule)
             },
-            {
-                path: 'enterprise', loadChildren: () => import('./enterprise/enterprise.module').then(m => m.EnterpriseModule)
-            },
+            
         ]
     }
 ];
