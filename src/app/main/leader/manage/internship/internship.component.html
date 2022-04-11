@@ -47,6 +47,14 @@
                   <input pInputText formControlName="academic_year" [ngModel]="selectedYear" type="text" hidden/>
                 </div>
               </div>
+              <div class="ui-g-12 ui-form-group">
+                <div class="ui-g-12 ui-md-2 inline-label text-right">
+                  Tên đợt thực tập
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                  <input pInputText formControlName="academic_year" [ngModel]="internship_name" type="text"/>
+                </div>
+              </div>
               <div class="clearfix"></div>
               <div class="ui-g-12 ui-form-group">
                 <div class="ui-g-12 ui-md-2 inline-label text-right">&nbsp;</div>
@@ -71,9 +79,12 @@
                   <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
                 <th style="width: 70px; text-align: center;">{{ 'COMMON.index' | translate }}</th>
-                <th style="text-align: left;">Mã đợt thực tập</th>
+                <th style="width: 140px; text-align: left;">Mã đợt thực tập</th>
+                <th style="text-align: left;">Tên đợt thực tập</th>
                 <th style="text-align: left;">Năm học</th>
                 <th style="text-align: left;">Học kỳ</th>
+                <th style="text-align: left;">Ngày bắt đầu</th>
+                <th style="text-align: left;">Số tuần</th>
                 <th style="width: 150px; text-align: left;" *ngIf="hasUpdatePermission || hasDeletePermission">{{
                   'COMMON.action' | translate }}</th>
               </tr>

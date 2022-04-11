@@ -30,6 +30,7 @@ export class InternshipComponent extends Grid implements OnInit {
   public internship: Internship;
   public years = [];
   public selectedYear = '';
+  public internship_name = '';
 
   public constructor(injector: Injector) {
     super(injector);
