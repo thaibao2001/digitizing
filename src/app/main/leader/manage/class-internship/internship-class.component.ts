@@ -20,8 +20,8 @@ import { Course } from '../../entities/course';
 declare var $: any;
 
 @Component({
-  selector: 'app-class-internship',
-  templateUrl: './class-internship.component.html',
+  selector: 'app-internship-class',
+  templateUrl: './internship-class.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ClassInternshipComponent extends Grid implements OnInit {

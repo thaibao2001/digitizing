@@ -4,7 +4,7 @@
       <i class="ace-icon fa fa-home home-icon"></i>
       <a [routerLink]="">{{ 'COMMON.home' | translate }}</a>
     </li>
-    <li class="active">Quản lý đồ án</li>
+    <li class="active">Quản lý danh mục học phần</li>
   </ul>
   <div class="nav-search">
     <p class="pull-right no-margin">
@@ -38,7 +38,7 @@
             <div class="ui-g-12">
               <div class="ui-g-12 ui-form-group">
                 <div class="ui-g-12 ui-md-2 inline-label text-right">
-                  Tên đồ án
+                  Tên học phần
                 </div>
                 <div class="ui-g-12 ui-md-4">
                   <input pInputText formControlName="course_name" ngModel type="text" />
@@ -46,10 +46,11 @@
               </div>
               <div class="ui-g-12 ui-form-group">
                 <div class="ui-g-12 ui-md-2 inline-label text-right">
-                  Loại đồ án
+                  Loại học phần
                 </div>
                 <div class="ui-g-12 ui-md-4">
-                  <input pInputText formControlName="course_type" ngModel type="text" />
+                  <ng-selectize [config]="selectizeConfig(1, 'label', 'value', false)" [options]="typeCourses"
+                    formControlName="course_type" placeholder="{{ 'COMMON.all' | translate }}"></ng-selectize>
                 </div>
               </div>
               <div class="clearfix"></div>
@@ -76,10 +77,10 @@
                   <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
                 <th style="width: 70px; text-align: center;">{{ 'COMMON.index' | translate }}</th>
-                <th style="text-align: left;">Tên đồ án</th>
-                <th style="text-align: left;">Loại đồ án</th>
-                <th style="text-align: left;">Số tín 1</th>
-                <th style="text-align: left;">Số tín 2</th>
+                <th style="text-align: left;">Tên học phần</th>
+                <th style="text-align: left;">Loại học phần</th>
+                <th style="text-align: left;">Số tín chỉ lý thuyết</th>
+                <th style="text-align: left;">Số tín chỉ thực hành</th>
                 <th style="text-align: left;">Nhận xét</th>
                 <th style="width: 100px; text-align: left;" *ngIf="hasUpdatePermission || hasDeletePermission">{{
                   'COMMON.action' | translate }}</th>
@@ -153,72 +154,73 @@
       </div>
     </div>
   </div>
-  <div *ngIf="(hasCreatePermission || hasUpdatePermission) && showUpdateModal" id="updateCourseModal"
-    class="modal fade" role="dialog" data-backdrop="static" tabindex="-1">
+  <div *ngIf="(hasCreatePermission || hasUpdatePermission) && showUpdateModal" id="updateCourseModal" class="modal fade"
+    role="dialog" data-backdrop="static" tabindex="-1">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 *ngIf="isCreate" class="modal-title">Thêm đồ án</h4>
-          <h4 *ngIf="!isCreate" class="modal-title">Sửa đồ án</h4>
+          <h4 *ngIf="isCreate" class="modal-title">Thêm học phần</h4>
+          <h4 *ngIf="!isCreate" class="modal-title">Sửa học phần</h4>
         </div>
         <div class="modal-body">
           <div *ngIf="!doneSetupForm" class="loading-overlay">
             <i class="fa fa-spinner fa-spin orange"></i>
           </div>
-          <form *ngIf="doneSetupForm" [formGroup]="updateForm" id="updateForm" class="lap-form" style="min-height: 50vh;">
+          <form *ngIf="doneSetupForm" [formGroup]="updateForm" id="updateForm" class="lap-form">
             <div class="row ui-fluid">
               <div class="ui-g-12 ui-form-group">
                 <div class="ui-g-12 ui-md-2 inline-label text-right">
-                  Mã đồ án
+                  Mã học phần
                   <span class="red">&nbsp;*</span>
                 </div>
                 <div class="ui-g-12 ui-md-4">
                   <error-messages [errors]="updateForm.controls['course_id_rcd'].errors"
                     [control]="updateForm.controls['course_id_rcd']"></error-messages>
-                    <input pInputText formControlName="course_id_rcd" [(ngModel)]="course.course_id_rcd"
-                    type="text" />
+                  <input pInputText formControlName="course_id_rcd" [(ngModel)]="course.course_id_rcd" type="text" />
                 </div>
                 <div class="ui-g-12 ui-md-2 inline-label text-right">
-                  Tên đồ án
+                  Tên học phần
                   <span class="red">&nbsp;*</span>
                 </div>
                 <div class="ui-g-12 ui-md-4">
                   <error-messages [errors]="updateForm.controls['course_name'].errors"
                     [control]="updateForm.controls['course_name']"></error-messages>
-                    <input pInputText formControlName="course_name" [(ngModel)]="course.course_name"
-                    type="text" />
-                </div>
-                <div class="ui-g-12 ui-md-2 inline-label text-right">
-                  Loại đồ án
-                  <span class="red">&nbsp;*</span>
-                </div>
-                <div class="ui-g-12 ui-md-4">
-                  <error-messages [errors]="updateForm.controls['course_type'].errors"
-                    [control]="updateForm.controls['course_type']"></error-messages>
-                    <input pInputText formControlName="course_type" [(ngModel)]="course.course_type"
-                    type="text" />
+                  <input pInputText formControlName="course_name" [(ngModel)]="course.course_name" type="text" />
                 </div>
               </div>
               <div class="ui-g-12 ui-form-group">
                 <div class="ui-g-12 ui-md-2 inline-label text-right">
-                  Số tín 1
+                  Loại học phần
+                  <span class="red">&nbsp;*</span>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                  <!-- <error-messages [errors]="updateForm.controls['course_type'].errors"
+                    [control]="updateForm.controls['course_type']"></error-messages>
+                    <input pInputText formControlName="course_type" [(ngModel)]="course.course_type"
+                    type="text" /> -->
+                  <ng-selectize [config]="selectizeConfig(1, 'label', 'value', false)" [options]="typeCourses"
+                    [(ngModel)]="course.course_type" formControlName="course_type"
+                    placeholder="{{ 'COMMON.all' | translate }}"></ng-selectize>
+                </div>
+              </div>
+              <div class="ui-g-12 ui-form-group">
+                <div class="ui-g-12 ui-md-2 inline-label text-right">
+                  Số tín chỉ lý thuyết
                   <span class="red">&nbsp;*</span>
                 </div>
                 <div class="ui-g-12 ui-md-4">
                   <error-messages [errors]="updateForm.controls['num_credits1'].errors"
                     [control]="updateForm.controls['num_credits1']"></error-messages>
-                    <input pInputText formControlName="num_credits1" [(ngModel)]="course.num_credits1"
-                    type="text" />
+                  <input pInputText formControlName="num_credits1" [(ngModel)]="course.num_credits1" type="text" placeholder="1-9" />
                 </div>
                 <div class="ui-g-12 ui-md-2 inline-label text-right">
-                  Số tín 2
+                  Số tín chỉ thực hành
                   <span class="red">&nbsp;*</span>
                 </div>
                 <div class="ui-g-12 ui-md-4">
                   <error-messages [errors]="updateForm.controls['num_credits2'].errors"
                     [control]="updateForm.controls['num_credits2']"></error-messages>
-                    <input pInputText formControlName="num_credits2" [(ngModel)]="course.num_credits2"
-                    type="text" />
+                  <input pInputText formControlName="num_credits2" [(ngModel)]="course.num_credits2" type="text" placeholder="1-9" />
                 </div>
               </div>
               <div class="ui-g-12 ui-form-group">
@@ -229,8 +231,7 @@
                 <div class="ui-g-12 ui-md-10">
                   <error-messages [errors]="updateForm.controls['comment'].errors"
                     [control]="updateForm.controls['comment']"></error-messages>
-                  <textarea pInputText formControlName="comment"
-                    [(ngModel)]="course.comment" type="text"></textarea>
+                  <textarea pInputText formControlName="comment" [(ngModel)]="course.comment" type="text"></textarea>
                 </div>
               </div>
             </div>
