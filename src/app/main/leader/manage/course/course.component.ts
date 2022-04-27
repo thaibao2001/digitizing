@@ -28,6 +28,8 @@ export class CourseComponent extends Grid implements OnInit {
   public host_image: any;
   public isCreate = false;
   public course: Course;
+  public typeCourses = [];
+
   @ViewChild(CustomizeFileUpload, { static: false })
   fu_web_info_logo_l: CustomizeFileUpload;
   @ViewChild(CustomizeFileUpload, { static: false })
@@ -99,7 +101,28 @@ export class CourseComponent extends Grid implements OnInit {
   public ngOnInit() {
     this.course = new Course();
     this.loadDropdowns();
-    setTimeout(() => console.log(this.data), 1000);
+    this.typeCourses = [
+      {
+        label: 'Đại cương',
+        value: 'DC'
+      },
+      {
+        label: 'Cơ sở ngành',
+        value: 'CSN'
+      },
+      {
+        label: 'Chuyên ngành',
+        value: 'CN'
+      },
+      {
+        label: 'Đồ án thực tập',
+        value: 'DATT'
+      },
+      {
+        label: 'Đồ án chuyên ngành',
+        value: 'DACN'
+      },
+    ]
     
   }
 
@@ -125,8 +148,8 @@ export class CourseComponent extends Grid implements OnInit {
           Validators.required,
           Validators.maxLength(5),
         ]),
-        num_credits1: new FormControl('', [Validators.required]),
-        num_credits2: new FormControl('', [Validators.required]),
+        num_credits1: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{1}$')]),
+        num_credits2: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{1}$')]),
         comment: new FormControl('', []),
       });
       this.updateFormOriginalData = this.updateForm.getRawValue();
@@ -270,10 +293,10 @@ export class CourseComponent extends Grid implements OnInit {
             Validators.maxLength(5),
           ]),
           num_credits1: new FormControl(this.course.num_credits1, [
-            Validators.required,
+            Validators.required, Validators.pattern('^[0-9]{1}$')
           ]),
           num_credits2: new FormControl(this.course.num_credits2, [
-            Validators.required,
+            Validators.required, Validators.pattern('^[0-9]{1}$')
           ]),
           comment: new FormControl(this.course.comment, []),
         });
