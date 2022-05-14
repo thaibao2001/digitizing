@@ -17,6 +17,7 @@ import { combineLatest, Observable } from 'rxjs';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/takeUntil';
 import { Course } from '../../entities/course';
+import {ConfirmationService} from 'primeng/api';
 declare var $: any;
 
 @Component({
@@ -33,7 +34,7 @@ export class AssignmentInternshipComponent extends Grid implements OnInit {
   public classes = [];
   public lecturers = [];
 
-  public constructor(injector: Injector) {
+  public constructor(injector: Injector, private confirmationService: ConfirmationService) {
     super(injector);
     this.LZCompress = true; // using LZString compress data
     this.loadBalancing = true;
@@ -169,17 +170,17 @@ export class AssignmentInternshipComponent extends Grid implements OnInit {
     this.data = [];
     if (value) {
       this.lecturers.forEach((lecturer) => {
-        if (value == lecturer.teach) this.data = [...this.data, lecturer];
+        if (value == lecturer.teach) { this.data = [...this.data, lecturer]; }
       });
-      if (this.data.length === 0)
+      if (this.data.length === 0) {
         this.data = [this.lecturers[0], this.lecturers[1], this.lecturers[2]];
-      else if (this.data.length < 3) {
+      } else if (this.data.length < 3) {
         let i = 0;
         while (this.data.length < 3) {
           const result = this.data.find(
             (item) => item.id === this.lecturers[i].id
           );
-          if (!result) this.data = [...this.data, this.lecturers[i]];
+          if (!result) { this.data = [...this.data, this.lecturers[i]]; }
           i++;
         }
       }
@@ -207,8 +208,7 @@ export class AssignmentInternshipComponent extends Grid implements OnInit {
       }
     } else {
       for (let i = 0; i < n; i++) {
-        if (i === n - 1) result.push(number);
-        else {
+        if (i === n - 1) { result.push(number); } else {
           result.push(tmp);
           number -= tmp;
         }
@@ -246,7 +246,7 @@ export class AssignmentInternshipComponent extends Grid implements OnInit {
           message: message,
           accept: () => {
             const index = this.data.findIndex((item) => item.id === id);
-            if (index >= 0) this.data.splice(index, 1);
+            if (index >= 0) { this.data.splice(index, 1); }
             const number = this.divideClass(
               this.selectedClass.number,
               this.data.length

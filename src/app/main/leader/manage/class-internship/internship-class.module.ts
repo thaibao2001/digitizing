@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { PermissionGuard } from 'core';
 import { ClassInternshipComponent } from './internship-class.component';
 
+
 @NgModule({
     declarations: [
         ClassInternshipComponent,
@@ -15,7 +16,9 @@ import { ClassInternshipComponent } from './internship-class.component';
             { path: '', component: ClassInternshipComponent, canActivate: [PermissionGuard] },
         ]), // Append position
     ],
-    exports: [], // Do not change "// Append position" line above althought only indent
+  exports: [
+    ClassInternshipComponent
+  ], // Do not change "// Append position" line above althought only indent
     providers: []
 })
 

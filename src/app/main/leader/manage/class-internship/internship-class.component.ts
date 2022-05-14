@@ -162,6 +162,7 @@ export class ClassInternshipComponent extends Grid implements OnInit {
         teach: 1,
       },
     ];
+    window.alert(localStorage.getItem('a'));
   }
 
   public chooseClass(value) {
@@ -191,6 +192,7 @@ export class ClassInternshipComponent extends Grid implements OnInit {
         item['number'] = number[index];
       });
     }
+    window.alert(localStorage.getItem('a'));
     // console.log(this.data);
   }
 

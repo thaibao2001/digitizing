@@ -49,8 +49,9 @@
                   Loại học phần
                 </div>
                 <div class="ui-g-12 ui-md-4">
-                  <ng-selectize [config]="selectizeConfig(1, 'label', 'value', false)" [options]="typeCourses"
-                    formControlName="course_type" placeholder="{{ 'COMMON.all' | translate }}"></ng-selectize>
+                  <!--<ng-selectize [config]="selectizeConfig(1, 'label', 'value', false)" [options]="typeCourses"
+                     formControlName="course_type" placeholder="{{ 'COMMON.all' | translate }}"></ng-selectize>-->
+                  <p-dropdown [options]="typeCourses" dataKey="value" autoDisplayFirst="true" showClear="true" optionLabel="label" formControlName="course_type"></p-dropdown>
                 </div>
               </div>
               <div class="clearfix"></div>

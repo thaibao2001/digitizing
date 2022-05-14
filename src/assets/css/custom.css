@@ -196,20 +196,20 @@ label, input[type=email], input[type=url], input[type=search], input[type=tel], 
 body {
   margin-right: 1px;
   background-color: #d5d5d5;
-} 
+}
 
 .loader {
   position: fixed;
   top: calc(100vh/2 - 50px);
   left: calc(100vw/2 - 50px);
   height: 150px;
-  width: 150px; 
+  width: 150px;
   border-radius: 50%;
   border: 3px solid transparent;
-  border-top-color: #3498db;    
+  border-top-color: #3498db;
   -webkit-animation: spin 2s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
   animation: spin 2s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
-} 
+}
 
 .loader:before {
   content: "";
@@ -220,10 +220,10 @@ body {
   bottom: 5px;
   border-radius: 50%;
   border: 3px solid transparent;
-  border-top-color: #e74c3c; 
+  border-top-color: #e74c3c;
   -webkit-animation: spin 3s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
   animation: spin 3s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
-} 
+}
 .loader:after {
   content: "";
   position: absolute;
@@ -236,10 +236,10 @@ body {
   border-top-color: #f9c922;
   -webkit-animation: spin 1.5s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
   animation: spin 1.5s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
-} 
+}
 
 @-webkit-keyframes spin {
-  0%   { 
+  0%   {
       -webkit-transform: rotate(0deg);  /* Chrome, Opera 15+, Safari 3.1+ */
       -ms-transform: rotate(0deg);  /* IE 9 */
       transform: rotate(0deg);  /* Firefox 16+, IE 10+, Opera */
@@ -251,7 +251,7 @@ body {
   }
 }
 @keyframes spin {
-  0%   { 
+  0%   {
       -webkit-transform: rotate(0deg);  /* Chrome, Opera 15+, Safari 3.1+ */
       -ms-transform: rotate(0deg);  /* IE 9 */
       transform: rotate(0deg);  /* Firefox 16+, IE 10+, Opera */
@@ -295,7 +295,7 @@ body {
   left: calc(50% - 12px);
   height: 25px;
   width: 25px;
-} 
+}
 
 .ui-paginator-element, .ui-paginator .ui-dropdown {
   margin-top: 10px;

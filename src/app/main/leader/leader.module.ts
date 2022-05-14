@@ -2,9 +2,10 @@ import { SharedModule } from './../../shared/shared.module';
 import { NgModule } from '@angular/core';
 import 'rxjs/add/operator/takeUntil';
 import { RouterModule } from '@angular/router';
+import { SelectionTableDropdownComponent } from './selection-table-dropdown/selection-table-dropdown/selection-table-dropdown.component';
 
 @NgModule({
-    declarations: [],
+    declarations: [SelectionTableDropdownComponent],
     imports: [
         SharedModule,
         RouterModule.forChild([
@@ -77,7 +78,7 @@ import { RouterModule } from '@angular/router';
             data: {
               full_path: 'leader/internship-class',
               preload: true,
-              delay: true
+              delay: true,
             }
           },
         ]), // Append position

@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-.max-height-scoll { 
+.max-height-scoll {
     max-height: 25em;
     overflow: auto;
     overflow-x: hidden;

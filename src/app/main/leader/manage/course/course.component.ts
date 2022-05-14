@@ -103,6 +103,10 @@ export class CourseComponent extends Grid implements OnInit {
     this.loadDropdowns();
     this.typeCourses = [
       {
+        label: 'Tất cả',
+        value: ''
+      },
+      {
         label: 'Đại cương',
         value: 'DC'
       },
@@ -122,8 +126,8 @@ export class CourseComponent extends Grid implements OnInit {
         label: 'Đồ án chuyên ngành',
         value: 'DACN'
       },
-    ]
-    
+    ];
+
   }
 
   public openCreateModal(row: any = null) {

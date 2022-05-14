@@ -4,7 +4,7 @@
       <i class="ace-icon fa fa-home home-icon"></i>
       <a [routerLink]="">{{ 'COMMON.home' | translate }}</a>
     </li>
-    <li class="active">Quản lý đợt thực tập</li>
+    <li class="active">QUẢN LÝ ĐỢT THỰC TẬP</li>
   </ul>
   <div class="nav-search">
     <p class="pull-right no-margin">
@@ -42,9 +42,8 @@
                 </div>
                 <div class="ui-g-12 ui-md-2">
                   <ng-selectize [config]="selectizeConfig(1, 'label', 'label', false)"
-                    (ngModelChange)="handleChangeYear($event)" [ngModel]="selectedYear" [options]="years"
-                    placeholder="{{ 'COMMON.all' | translate }}" formControlName="yearSelect"></ng-selectize>
-                  <input pInputText formControlName="academic_year" [ngModel]="selectedYear" type="text" hidden/>
+                    (ngModelChange)="handleChangeYear($event)" [ngModel]="academic_year" [options]="years"
+                    placeholder="{{ 'COMMON.all' | translate }}" formControlName="academic_year"></ng-selectize>
                 </div>
               </div>
               <div class="ui-g-12 ui-form-group">
@@ -52,7 +51,7 @@
                   Tên đợt thực tập
                 </div>
                 <div class="ui-g-12 ui-md-2">
-                  <input pInputText formControlName="academic_year" [ngModel]="internship_name" type="text"/>
+                  <input pInputText formControlName="internship_name" [ngModel]="internship_name" type="text"/>
                 </div>
               </div>
               <div class="clearfix"></div>
@@ -98,12 +97,15 @@
                   <div class="index_{{ row?.id }}">{{ first + i + 1 }}</div>
                 </td>
                 <td style="text-align: left;">{{ row?.internship_id_rcd }}</td>
+                <td style="text-align: left;">{{ row?.internship_name }}</td>
                 <td style="text-align: left;">{{ row?.academic_year }}</td>
                 <td style="text-align: left;">{{row?.semester}}</td>
+                <td style="text-align: left;">{{ row?.start_date | date:'dd-MM-yyyy' }}</td>
+                <td style="text-align: left;">{{row?.number_of_weeks}}</td>
                 <td class="action-col" style="width: 150px; text-align: center;"
                   *ngIf="hasUpdatePermission || hasDeletePermission">
                   <div class="btn-group">
-                      <a class="btn btn-xs btn-white btn-default" [routerLink]="['/leader/class-internship/', row.id]"><i class="ace-icon fa fa-eye"></i></a>
+                      <a class="btn btn-xs btn-white btn-default" (click)="getInternshipClass(row)"><i class="ace-icon fa fa-eye"></i></a>
                     <button title="{{ 'COMMON.update' | translate }}" class="btn btn-xs btn-white btn-default"
                       *ngIf="hasUpdatePermission" (click)="openUpdateModal(row)"><i
                         class="ace-icon fa fa-edit"></i></button>
@@ -180,11 +182,21 @@
                   <span class="red">&nbsp;*</span>
                 </div>
                 <div class="ui-g-12 ui-md-4">
-                  <ng-selectize [config]="selectizeConfig(1, 'label', 'label', false)" [(ngModel)]="internship.academic_year" [options]="years"
-                    placeholder="{{ 'COMMON.all' | translate }}" formControlName="academic_year"></ng-selectize>
+                  <input pInputText formControlName="academic_year" [(ngModel)]="internship.academic_year" type="text" />
                   <!-- <error-messages [errors]="updateForm.controls['academic_year'].errors"
                     [control]="updateForm.controls['academic_year']"></error-messages>
                   <input pInputText formControlName="academic_year" [(ngModel)]="internship.academic_year" type="text" /> -->
+                </div>
+              </div>
+              <div class="ui-g-12 ui-form-group">
+                <div class="ui-g-12 ui-md-2 inline-label text-right">
+                  Tên đợt thực tập
+                  <span class="red">&nbsp;*</span>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                  <error-messages [errors]="updateForm.controls['internship_name'].errors"
+                                  [control]="updateForm.controls['internship_name']"></error-messages>
+                  <input pInputText formControlName="internship_name" [(ngModel)]="internship.internship_name" type="text" />
                 </div>
                 <div class="ui-g-12 ui-md-2 inline-label text-right">
                   Học kỳ
@@ -192,8 +204,30 @@
                 </div>
                 <div class="ui-g-12 ui-md-4">
                   <error-messages [errors]="updateForm.controls['semester'].errors"
-                    [control]="updateForm.controls['semester']"></error-messages>
+                                  [control]="updateForm.controls['semester']"></error-messages>
                   <input pInputText formControlName="semester" [(ngModel)]="internship.semester" type="text" />
+                </div>
+              </div>
+              <div class="ui-g-12 ui-form-group">
+                <div class="ui-g-12 ui-md-2 inline-label text-right">
+                  Ngày bắt đầu
+                  <span class="red">&nbsp;*</span>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                  <error-messages [errors]="updateForm.controls['start_date'].errors"
+                                  [control]="updateForm.controls['start_date']"></error-messages>
+                  <p-calendar #calDoB_l [showIcon]="true" [(ngModel)]="internship.start_date" formControlName="start_date"
+                              [locale]="locale_calendar" (keydown)="onlyNumbers($event)" (input)="addSlash($event)" [dateFormat]="dateFormat"
+                              (onSelect)="selectCalendar($event, calDoB_l)" appendTo="body"></p-calendar>
+                </div>
+                <div class="ui-g-12 ui-md-2 inline-label text-right">
+                  Số tuần
+                  <span class="red">&nbsp;*</span>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                  <error-messages [errors]="updateForm.controls['number_of_weeks'].errors"
+                                  [control]="updateForm.controls['number_of_weeks']"></error-messages>
+                  <input pInputText formControlName="number_of_weeks" [(ngModel)]="internship.number_of_weeks" type="text" />
                 </div>
               </div>
             </div>
@@ -216,6 +250,330 @@
     </div>
   </div>
 </div>
+
+<div class="breadcrumbs ace-save-state " [hidden]="internship_class_table_invisible">
+  <ul class="breadcrumb">
+    <li class="active">DANH SÁCH CÁC LỚP THỰC TẬP</li>
+  </ul>
+  <div class="nav-search">
+    <p class="pull-right no-margin">
+      <a *ngIf="hasCreatePermission" class="btn btn-success btn-xs" (click)="visibleSidebar = true"><i
+        class="fa fa-edit"></i>&nbsp;&nbsp;Chỉnh sửa</a>
+    </p>
+  </div>
+</div>
+<div class="page-content" [hidden]="internship_class_table_invisible">
+  <div>
+    <span>Mã đợt thực tập: {{selected_internship.internship_id_rcd}}</span>
+    <span style="margin-left: 2rem;">Tên đợt thực tập: {{selected_internship.internship_name}}</span>
+  </div>
+<!--  <p-tree [value]="files"></p-tree>-->
+  <div class="row">
+    <div class="ui-g-12 datatable-container">
+      <div class="row">
+        <div class="col-xs-12">
+          <p-table #datatable [value]="internship_classes" [lazy]="false" [lazyLoadOnInit] = 'false' [(selection)]="selectedDataTableItems">
+            <div>
+              <span>Lớp: {{selected_internship_id}}</span>
+              <span style="margin-left: 2rem;">Chuyên ngành: {{selected_internship_id}}</span>
+              <span style="margin-left: 2rem;">Sĩ số: {{selected_internship_id}}</span>
+            </div>
+            <ng-template pTemplate="header">
+              <tr>
+
+                <th style="width: 70px; text-align: center;">{{ 'COMMON.index' | translate }}</th>
+                <th style="width: 140px; text-align: left;">Mã lớp</th>
+                <th style="text-align: left;">Tên lớp</th>
+                <th style="text-align: left;">Ngành</th>
+                <th style="text-align: left;">Chuyên ngành</th>
+                <th style="width: 150px; text-align: left;" *ngIf="hasUpdatePermission || hasDeletePermission">{{
+                  'COMMON.action' | translate }}</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-row let-i="rowIndex">
+              <tr [pSelectableRow]="row">
+                <td style="text-align: right;">{{ row?.rowNumber | number }}</td>
+                <td style="text-align: left;">{{ row?.class_id_rcd }}</td>
+                <td style="text-align: left;">{{ row?.class_name }}</td>
+                <td style="text-align: left;">{{ row?.major_name }}</td>
+                <td style="text-align: left;">{{ row?.specialization_name }}</td>
+
+                <td class="action-col" style="width: 150px; text-align: center;"
+                    *ngIf="hasUpdatePermission || hasDeletePermission">
+                  <div class="btn-group">
+                    <a class="btn btn-xs btn-white btn-default"><i class="ace-icon fa fa-eye"></i></a>
+                    <button title="{{ 'COMMON.update' | translate }}" class="btn btn-xs btn-white btn-default"
+                            *ngIf="hasUpdatePermission" (click)="showDialog()"><i
+                      class="ace-icon fa fa-edit"></i></button>
+                    <button title="{{ 'COMMON.delete' | translate }}" class="btn btn-xs btn-white btn-default"
+                            *ngIf="hasDeletePermission" (click)="removeInternshipClass([row])">
+                      <i class="ace-icon fa fa-trash bigger-120"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="50">
+                  {{ 'COMMON.empty_table' | translate}}
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<p-sidebar [(visible)]="visibleSidebar" position="right" [baseZIndex]="10000">
+  <p-tree [value]="treeNodes" (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)" selectionMode="checkbox" [(selection)]="selectedFiles"></p-tree>
+  <div class="d-flex justify-content-between">
+    <button pButton type="button" (click)="saveInternshipClasses()" label="Lưu" class="ui-button-success"></button>
+    <button style = "left: 10px" pButton type="button" (click)="visibleSidebar = false" label="Thoát" class="ui-button-secondary"></button>
+  </div>
+</p-sidebar>
+<p-sidebar [(visible)]="visible" [fullScreen]="true" [baseZIndex]="10000">
+  <h1 style="font-weight:normal">Full Screen Sidebar</h1>
+  <div class="page-content">
+    <div class="row">
+      <div class="ui-g-12" *ngIf="showSearchPanel">
+        <p-panel class="ui-fluid">
+          <p-header>
+            <div class="ui-helper-clearfix">
+            <span class="ui-panel-title" style="font-size: 16px; display: inline-block; margin-top: 2px">{{
+              'COMMON.search' | translate }}</span>
+              <p class="pull-right no-margin">
+
+                <button type="button" title="{{ 'COMMON.close' | translate }}" (click)="toggleSearchPanel()"
+                        class="btn btn-xs btn-primary" style="width: 29.29px">
+                  <i class="ace-icon fa bigger-110 icon-only fa-angle-double-up"></i>
+                </button>
+              </p>
+            </div>
+          </p-header>
+          <form [formGroup]="searchFormGroup" (ngSubmit)="search(true)" novalidate>
+            <div class="ui-g lap-form">
+              <div class="ui-g-12">
+                <div class="ui-g-12 ui-form-group">
+                  <div class="ui-g-12 ui-md-2 inline-label text-right">
+                    Năm học
+                  </div>
+                  <div class="ui-g-12 ui-md-2">
+                    <ng-selectize [config]="selectizeConfig(1, 'label', 'label', false)"
+                                  (ngModelChange)="handleChangeYear($event)" [ngModel]="academic_year" [options]="years"
+                                  placeholder="{{ 'COMMON.all' | translate }}" formControlName="academic_year"></ng-selectize>
+                  </div>
+                </div>
+                <div class="ui-g-12 ui-form-group">
+                  <div class="ui-g-12 ui-md-2 inline-label text-right">
+                    Tên đợt thực tập
+                  </div>
+                  <div class="ui-g-12 ui-md-2">
+                    <input pInputText formControlName="internship_name" [ngModel]="internship_name" type="text"/>
+                  </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="ui-g-12 ui-form-group">
+                  <div class="ui-g-12 ui-md-2 inline-label text-right">&nbsp;</div>
+                  <div class="ui-g-12 ui-md-2">
+                    <button type="submit" class="btn btn-primary btn-xs">
+                      <i class="fa fa-search"></i> {{ 'COMMON.search' | translate }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </p-panel>
+      </div>
+      <div class="ui-g-12 datatable-container">
+        <div class="row">
+          <div class="col-xs-12">
+            <p-table #datatable [value]="data" [lazy]="true" [rows]="pageSize" [(selection)]="selectedDataTableItems">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th style="width: 38px; text-align: center;">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                  </th>
+                  <th style="width: 70px; text-align: center;">{{ 'COMMON.index' | translate }}</th>
+                  <th style="width: 140px; text-align: left;">Mã đợt thực tập</th>
+                  <th style="text-align: left;">Tên đợt thực tập</th>
+                  <th style="text-align: left;">Năm học</th>
+                  <th style="text-align: left;">Học kỳ</th>
+                  <th style="text-align: left;">Ngày bắt đầu</th>
+                  <th style="text-align: left;">Số tuần</th>
+                  <th style="width: 150px; text-align: left;" *ngIf="hasUpdatePermission || hasDeletePermission">{{
+                    'COMMON.action' | translate }}</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-row let-i="rowIndex">
+                <tr [pSelectableRow]="row">
+                  <td style="width: 38px; text-align: center;">
+                    <p-tableCheckbox [value]="row"></p-tableCheckbox>
+                  </td>
+                  <td style="width: 70px; text-align: center;">
+                    <div class="index_{{ row?.id }}">{{ first + i + 1 }}</div>
+                  </td>
+                  <td style="text-align: left;">{{ row?.internship_id_rcd }}</td>
+                  <td style="text-align: left;">{{ row?.internship_name }}</td>
+                  <td style="text-align: left;">{{ row?.academic_year }}</td>
+                  <td style="text-align: left;">{{row?.semester}}</td>
+                  <td style="text-align: left;">{{ row?.start_date | date:'dd-MM-yyyy' }}</td>
+                  <td style="text-align: left;">{{row?.number_of_weeks}}</td>
+                  <td class="action-col" style="width: 150px; text-align: center;"
+                      *ngIf="hasUpdatePermission || hasDeletePermission">
+                    <div class="btn-group">
+                      <a class="btn btn-xs btn-white btn-default" (click)="getInternshipClass(row)"><i class="ace-icon fa fa-eye"></i></a>
+                      <button title="{{ 'COMMON.update' | translate }}" class="btn btn-xs btn-white btn-default"
+                              *ngIf="hasUpdatePermission" (click)="openUpdateModal(row)"><i
+                        class="ace-icon fa fa-edit"></i></button>
+                      <button title="{{ 'COMMON.delete' | translate }}" class="btn btn-xs btn-white btn-default"
+                              *ngIf="hasDeletePermission" (click)="onRemove([row])">
+                        <i class="ace-icon fa fa-trash bigger-120"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="footer">
+                <tr>
+                  <td colspan="50">
+                    <div style="text-align: center;display: flex;justify-content: center; position: relative;">
+                      <div style="display: inline-block">
+                        <p-paginator [first]="first" dropdownAppendTo="body" [rowsPerPageOptions]="[5, 10, 20, 50, 100]"
+                                     [totalRecords]="totalRecords" (onPageChange)="onPageChange($event)" [rows]="pageSize"
+                                     [pageLinkSize]="10"></p-paginator>
+                      </div>
+                      <div class="custom-ng-star-inserted">
+                        <div class="ui-inputgroup">
+                          <input type="text" name="inputTextInt" [pKeyFilter]="rgxPInt" (keypress)="goToPage($event)"
+                                 [(ngModel)]="page" pInputText placeholder="{{ 'COMMON.page_number' | translate }}">
+                          <span class="ui-inputgroup-addon">/ {{ totalPages }}</span>
+                          <button pButton type="button" (click)="goToPage($event)" icon="fa-random"
+                                  class="ui-button-secondary"></button>
+                        </div>
+                      </div>
+                      <span style="float: right;position: absolute;right: 0px;padding-top: 3px;">{{ pageLabel }}</span>
+                      <div class="clearfix"></div>
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td colspan="50">
+                    {{ 'COMMON.empty_table' | translate}}
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="(hasCreatePermission || hasUpdatePermission) && showUpdateModal" id="updateInternshipModal" class="modal fade"
+         role="dialog" data-backdrop="static" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 *ngIf="isCreate" class="modal-title">Thêm đợt thực tập</h4>
+            <h4 *ngIf="!isCreate" class="modal-title">Sửa đợt thực tập</h4>
+          </div>
+          <div class="modal-body">
+            <div *ngIf="!doneSetupForm" class="loading-overlay">
+              <i class="fa fa-spinner fa-spin orange"></i>
+            </div>
+            <form *ngIf="doneSetupForm" [formGroup]="updateForm" id="updateForm" class="lap-form">
+              <div class="row ui-fluid">
+                <div class="ui-g-12 ui-form-group">
+                  <div class="ui-g-12 ui-md-2 inline-label text-right">
+                    Mã đợt thực tập
+                    <span class="red">&nbsp;*</span>
+                  </div>
+                  <div class="ui-g-12 ui-md-4">
+                    <error-messages [errors]="updateForm.controls['internship_id_rcd'].errors"
+                                    [control]="updateForm.controls['internship_id_rcd']"></error-messages>
+                    <input pInputText formControlName="internship_id_rcd" [(ngModel)]="internship.internship_id_rcd" type="text" />
+                  </div>
+                  <div class="ui-g-12 ui-md-2 inline-label text-right">
+                    Năm học
+                    <span class="red">&nbsp;*</span>
+                  </div>
+                  <div class="ui-g-12 ui-md-4">
+                    <input pInputText formControlName="academic_year" [(ngModel)]="internship.academic_year" type="text" />
+                    <!-- <error-messages [errors]="updateForm.controls['academic_year'].errors"
+                      [control]="updateForm.controls['academic_year']"></error-messages>
+                    <input pInputText formControlName="academic_year" [(ngModel)]="internship.academic_year" type="text" /> -->
+                  </div>
+                </div>
+                <div class="ui-g-12 ui-form-group">
+                  <div class="ui-g-12 ui-md-2 inline-label text-right">
+                    Tên đợt thực tập
+                    <span class="red">&nbsp;*</span>
+                  </div>
+                  <div class="ui-g-12 ui-md-4">
+                    <error-messages [errors]="updateForm.controls['internship_name'].errors"
+                                    [control]="updateForm.controls['internship_name']"></error-messages>
+                    <input pInputText formControlName="internship_name" [(ngModel)]="internship.internship_name" type="text" />
+                  </div>
+                  <div class="ui-g-12 ui-md-2 inline-label text-right">
+                    Học kỳ
+                    <span class="red">&nbsp;*</span>
+                  </div>
+                  <div class="ui-g-12 ui-md-4">
+                    <error-messages [errors]="updateForm.controls['semester'].errors"
+                                    [control]="updateForm.controls['semester']"></error-messages>
+                    <input pInputText formControlName="semester" [(ngModel)]="internship.semester" type="text" />
+                  </div>
+                </div>
+                <div class="ui-g-12 ui-form-group">
+                  <div class="ui-g-12 ui-md-2 inline-label text-right">
+                    Ngày bắt đầu
+                    <span class="red">&nbsp;*</span>
+                  </div>
+                  <div class="ui-g-12 ui-md-4">
+                    <error-messages [errors]="updateForm.controls['start_date'].errors"
+                                    [control]="updateForm.controls['start_date']"></error-messages>
+                    <p-calendar #calDoB_l [showIcon]="true" [(ngModel)]="internship.start_date" formControlName="start_date"
+                                [locale]="locale_calendar" (keydown)="onlyNumbers($event)" (input)="addSlash($event)" [dateFormat]="dateFormat"
+                                (onSelect)="selectCalendar($event, calDoB_l)" appendTo="body"></p-calendar>
+                  </div>
+                  <div class="ui-g-12 ui-md-2 inline-label text-right">
+                    Số tuần
+                    <span class="red">&nbsp;*</span>
+                  </div>
+                  <div class="ui-g-12 ui-md-4">
+                    <error-messages [errors]="updateForm.controls['number_of_weeks'].errors"
+                                    [control]="updateForm.controls['number_of_weeks']"></error-messages>
+                    <input pInputText formControlName="number_of_weeks" [(ngModel)]="internship.number_of_weeks" type="text" />
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" [disabled]="!doneSetupForm" class="btn btn-default btn-sm" (click)="resetUpdateForm()">
+              <i class="fa fa-sync-alt"></i> {{ 'COMMON.reset' | translate }}
+            </button>
+            <button type="button" (click)="onSubmit()"
+                    [disabled]="!doneSetupForm || !updateForm.valid || !enabledSubmitFlag || submitting"
+                    class="btn btn-success btn-sm btn-submit">
+              <i class="fa fa-save"></i> {{ 'COMMON.ok' | translate }}
+            </button>
+            <button type="button" class="btn btn-default btn-sm btn-close" (click)="closeUpdateForm($event)">
+              <i class="fa fa-times"></i> {{ 'COMMON.cancel' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button pButton type="button" (click)="visible = false" label="Save" class="ui-button-success"></button>
+  <button pButton type="button" (click)="visible=false" label="Cancel" class="ui-button-secondary"></button>
+</p-sidebar>
+
 <p-confirmDialog header="{{ 'COMMON.confirm' | translate }}" icon="fa fa-question-circle" width="425" #cd>
   <p-footer>
     <button class="btn-success" type="button" pButton icon="fa-check" label="{{ 'COMMON.ok' | translate }}"

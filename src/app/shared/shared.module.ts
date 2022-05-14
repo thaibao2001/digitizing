@@ -14,7 +14,7 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
         PickerModule
     ],
     declarations: [
-         NotFoundComponent,         
+         NotFoundComponent,
     ],
     exports: [
         CoreModule,
